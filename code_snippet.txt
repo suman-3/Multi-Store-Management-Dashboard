@@ -1,0 +1,640 @@
+NEXT_PUBLIC_FIREBASE_API_KEY=your_api_key
+NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN=your_api_key
+NEXT_PUBLIC_FIREBASE_PROJECT_ID=your_api_key
+NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET=your_api_key
+NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID=your_api_key
+NEXT_PUBLIC_FIREBASE_APP_ID=your_api_key
+
+
+
+
+------------------------------------------------------------------------------
+types-db.ts
+
+------------------------------------------------------------------------------
+footer.tsx
+------------------------------------------------------------------------------
+
+export interface Products {
+    id: string;
+    name: string;
+    price: number;
+    images: { url: string }[];
+    isFeatured: boolean;
+    isArchived: boolean;
+    category: string;
+    size: string;
+    kitchen: string;
+    cuisine: string;
+    qty: number;
+  }
+  
+  export interface Category {
+    id: string;
+    billboardId: string;
+    billboardLabel: string;
+    name: string;
+  }
+  
+  export interface Size {
+    id: string;
+    name: string;
+    value: string;
+  }
+  
+  export interface Kitchen {
+    id: string;
+    name: string;
+    value: string;
+  }
+  
+  export interface Cuisines {
+    id: string;
+    name: string;
+    value: string;
+  }
+  
+  export interface Orders {
+    id: string;
+    isPaid: boolean;
+    phone: string;
+    orderItems: Products[];
+    address: string;
+    order_status: string;
+    userId: string;
+  }
+  
+  
+  
+  <footer className="bg-white ">
+      <Container>
+        <div className="w-full  bg-hero/30 grid grid-cols-2 md:grid-cols-4 px-4 md:px-12 py-8">
+          <div className="flex flex-col items-start justify-start gap-3">
+            <h2 className="text-3xl font-semibold">Menu</h2>
+            <p className="text-neutral-500 text-sm">Home</p>
+            <p className="text-neutral-500 text-sm">Why Choose</p>
+            <p className="text-neutral-500 text-sm">Special Menu</p>
+            <p className="text-neutral-500 text-sm">Regular Food</p>
+            <p className="text-neutral-500 text-sm">Special Chefs</p>
+          </div>
+
+          <div className="flex flex-col items-start justify-start gap-3">
+            <h2 className="text-3xl font-semibold">Help</h2>
+            <p className="text-neutral-500 text-sm">Privacy</p>
+            <p className="text-neutral-500 text-sm">Terms & Condition</p>
+            <p className="text-neutral-500 text-sm">Policy</p>
+          </div>
+
+          <div className="flex flex-col items-start justify-start gap-3">
+            <h2 className="text-3xl font-semibold">Contact</h2>
+            <p className="text-neutral-500 text-sm">+000 0000 0000</p>
+            <p className="text-neutral-500 text-sm">info@foodied.com</p>
+            <p className="text-neutral-500 text-sm">1234 New Street, India</p>
+          </div>
+
+          <div className="flex flex-col items-start justify-start gap-3">
+            <h2 className="text-3xl font-semibold">Subscribe Our Newsletter</h2>
+            <div className="w-full rounded-md border-2 border-emerald-500 flex items-center justify-center">
+              <input
+                type="text"
+                placeholder="Enter your Email"
+                className="h-full bg-transparent pl-4 text-sm text-neutral-500 w-full outline-none border-none"
+              />
+              <Button className="bg-emerald-500 rounded-tr-none rounded-br-none hover:bg-emerald-600">
+                Subscribe
+              </Button>
+            </div>
+          </div>
+        </div>
+        <div className="mx-auto py-8 ">
+          <p className="text-center text-xs text-black">
+            &copy; 2023 Foodied, Inc. All rights reserved
+          </p>
+        </div>
+      </Container>
+    </footer>
+    ------------------------------------------------------------------------------
+    
+    
+    ------------------------------------------------------------------------------
+    
+    Home Section 
+    
+    ------------------------------------------------------------------------------
+    
+    
+     {/* why choose us */}
+        <section className=" my-4 py-12 flex flex-col items-center justify-center">
+          <h2 className="text-5xl md:text-5xl font-bold tracking-wider uppercase text-neutral-700 my-4">
+            Why choose us ?
+          </h2>
+          <p className="w-full text-center md:w-[560px] text-base text-neutral-500 my-2">
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Hic,
+            commodi repellendus quod tempore reiciendis mollitia perferendis{" "}
+          </p>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full my-6 mt-20">
+            <Card className="shadow-lg rounded-md border-none p-4 py-12 flex flex-col items-center justify-center gap-4">
+              <Salad className="w-8 h-8 text-hero" />
+              <CardTitle className="text-neutral-600">
+                Serve Healthy Food
+              </CardTitle>
+              <CardDescription className="text-center">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus
+                laudantium sunt
+              </CardDescription>
+            </Card>
+
+            <Card className="shadow-lg rounded-md border-none p-4 py-12 flex flex-col items-center justify-center gap-4">
+              <FileHeart className="w-8 h-8 text-hero" />
+              <CardTitle className="text-neutral-600">Best Quality</CardTitle>
+              <CardDescription className="text-center">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus
+                laudantium sunt
+              </CardDescription>
+            </Card>
+
+            <Card className="shadow-lg rounded-md border-none p-4 py-12 flex flex-col items-center justify-center gap-4">
+              <Truck className="w-8 h-8 text-hero" />
+              <CardTitle className="text-neutral-600">Fast Delivery</CardTitle>
+              <CardDescription className="text-center">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Ducimus
+                laudantium sunt
+              </CardDescription>
+            </Card>
+          </div>
+        </section>
+
+        {/* our chef sections */}
+        <section className=" my-4 py-12 flex flex-col items-center justify-center">
+          <h2 className="text-5xl md:text-5xl font-bold tracking-wider uppercase text-neutral-700 my-4">
+            Our Special Chefs
+          </h2>
+          <p className="w-full text-center md:w-[560px] text-base text-neutral-500 my-2">
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Hic,
+            commodi repellendus quod tempore reiciendis mollitia perferendis{" "}
+          </p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 w-full my-6 mt-20">
+            <Card className="shadow-lg relative rounded-md border-none  flex flex-col items-center justify-end h-96 md:h-[520px] bg-hero/30">
+              <Image
+                src="/img/chef1.png"
+                alt="Chef One"
+                className="w-full h-full object-contain"
+                fill
+              />
+            </Card>
+
+            <Card className="shadow-lg relative rounded-md border-none  flex flex-col items-center justify-end h-96 md:h-[520px] mt-20 bg-hero/30">
+              <Image
+                src="/img/chef3.png"
+                alt="Chef One"
+                className="w-full h-full object-contain"
+                fill
+              />
+            </Card>
+
+            <Card className="shadow-lg relative rounded-md border-none  flex flex-col items-center justify-end h-96 md:h-[520px] bg-hero/30">
+              <Image
+                src="/img/chef2.png"
+                alt="Chef One"
+                className="w-full h-full object-contain"
+                fill
+              />
+            </Card>
+          </div>
+        </section>
+    
+    
+    ------------------------------------------------------------------------------
+    
+const corsHeaders = {
+"Access-Control-Allow-Origin": "*",
+"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+"Access-Control-Allow-Headers": "Content-Type, Authorization",
+};
+
+    ------------------------------------------------------------------------------
+    
+    
+    import { db } from "@/lib/firebase";
+import { Order } from "@/types-db";
+import { auth } from "@clerk/nextjs/server";
+
+import {
+  deleteDoc,
+  doc,
+  getDoc,
+  serverTimestamp,
+  updateDoc,
+} from "firebase/firestore";
+import { NextResponse } from "next/server";
+
+export const PATCH = async (
+  req: Request,
+  { params }: { params: { storeId: string; orderId: string } }
+) => {
+  try {
+    const { userId } = auth();
+    const body = await req.json();
+
+    if (!userId) {
+      return new NextResponse("Unauthenticated", { status: 400 });
+    }
+
+    const { order_status } = body;
+
+    if (!order_status) {
+      return new NextResponse("Order Status is required", { status: 400 });
+    }
+
+    if (!params.storeId) {
+      return new NextResponse("Store Id is required", { status: 400 });
+    }
+
+    if (!params.orderId) {
+      return new NextResponse("Order is required", { status: 400 });
+    }
+
+    const store = await getDoc(doc(db, "stores", params.storeId));
+
+    if (store.exists()) {
+      let storeData = store.data();
+      if (storeData?.userId !== userId) {
+        return new NextResponse("Unauthorized Access", { status: 403 });
+      }
+    }
+
+    const orderRef = await getDoc(
+      doc(db, "stores", params.storeId, "orders", params.orderId)
+    );
+
+    if (orderRef.exists()) {
+      await updateDoc(
+        doc(db, "stores", params.storeId, "orders", params.orderId),
+        {
+          ...orderRef.data(),
+          order_status,
+          updatedAt: serverTimestamp(),
+        }
+      );
+    } else {
+      return new NextResponse("Order Not Found", { status: 404 });
+    }
+
+    const order = (
+      await getDoc(doc(db, "stores", params.storeId, "orders", params.orderId))
+    ).data() as Order;
+
+    return NextResponse.json(order);
+  } catch (error) {
+    console.log(`[STORE_PATCH] : ${error}`);
+    return new NextResponse("Internal Server Error", { status: 500 });
+  }
+};
+
+export const DELETE = async (
+  req: Request,
+  { params }: { params: { storeId: string; orderId: string } }
+) => {
+  try {
+    const { userId } = auth();
+
+    if (!userId) {
+      return new NextResponse("Unauthorized", { status: 401 });
+    }
+
+    if (!params.storeId) {
+      return new NextResponse("Store Id is required", { status: 400 });
+    }
+
+    if (!params.orderId) {
+      return new NextResponse("Order is required", { status: 400 });
+    }
+
+    const store = await getDoc(doc(db, "stores", params.storeId));
+
+    if (store.exists()) {
+      let storeData = store.data();
+      if (storeData?.userId !== userId) {
+        return new NextResponse("Unauthorized Access", { status: 403 });
+      }
+    }
+
+    const docRef = doc(db, "stores", params.storeId, "orders", params.orderId);
+
+    await deleteDoc(docRef);
+
+    return NextResponse.json({ msg: "Order Deleted" });
+  } catch (error) {
+    console.log(`[ORDER_DELETE] : ${error}`);
+    return new NextResponse("Internal Server Error", { status: 500 });
+  }
+};
+
+
+import { db } from "@/lib/firebase";
+import { Order } from "@/types-db";
+import { collection, doc, getDocs } from "firebase/firestore";
+import { NextResponse } from "next/server";
+
+export const GET = async (
+  req: Request,
+  { params }: { params: { storeId: string } }
+) => {
+  try {
+    if (!params.storeId) {
+      return new NextResponse("Store Id is required", { status: 400 });
+    }
+
+    const ordersData = (
+      await getDocs(collection(doc(db, "stores", params.storeId), "orders"))
+    ).docs.map((doc) => doc.data()) as Order[];
+
+    // Return the added document with its ID
+    return NextResponse.json(ordersData);
+  } catch (error) {
+    console.log(`[ORDERS_GET] : ${error}`);
+    return new NextResponse("Internal Server Error", { status: 500 });
+  }
+};
+
+------------------------------------------------------------------------------
+
+import { db } from "@/lib/firebase";
+import { Order } from "@/types-db";
+import { collection, doc, getDocs } from "firebase/firestore";
+
+interface GraphData {
+  name: string;
+  total: number;
+}
+
+export const getGraphTotalRevenue = async (storeId: string) => {
+  const ordersData = (
+    await getDocs(collection(doc(db, "stores", storeId), "orders"))
+  ).docs.map((doc) => doc.data()) as Order[];
+
+  const paidOrders = ordersData.filter((order) => order.isPaid);
+
+  const monthlyRevenue: { [key: string]: number } = {};
+
+  for (const order of paidOrders) {
+    const month = order.createdAt
+      ?.toDate()
+      .toLocaleDateString("en-US", { month: "short" });
+
+    if (month) {
+      let revenueForOrder = 0;
+
+      for (const item of order.orderItems) {
+        if (item.qty !== undefined) {
+          revenueForOrder += item.price * item.qty;
+        } else {
+          revenueForOrder += item.price;
+        }
+      }
+
+      monthlyRevenue[month] = (monthlyRevenue[month] || 0) + revenueForOrder;
+    }
+  }
+
+  // Create a map to convert month names to numeric representation
+  const monthMap: { [key: string]: number } = {
+    Jan: 0,
+    Feb: 1,
+    Mar: 2,
+    Apr: 3,
+    May: 4,
+    Jun: 5,
+    Jul: 6,
+    Aug: 7,
+    Sep: 8,
+    Oct: 9,
+    Nov: 10,
+    Dec: 11,
+  };
+
+  //   update the graph data
+  const graphData: GraphData[] = Object.keys(monthMap).map((monthName) => ({
+    name: monthName,
+    total: monthlyRevenue[monthName] || 0,
+  }));
+
+  return graphData;
+};
+
+
+------------------------------------------------------------------------------
+
+import { db } from "@/lib/firebase";
+import { Category, Order } from "@/types-db";
+import { collection, doc, getDocs } from "firebase/firestore";
+
+interface GraphData {
+  name: string;
+  total: number;
+}
+
+export const getOrderTotalRevenueByCategory = async (storeId: string) => {
+  const ordersData = (
+    await getDocs(collection(doc(db, "stores", storeId), "orders"))
+  ).docs.map((doc) => doc.data()) as Order[];
+
+  const categories = (
+    await getDocs(collection(doc(db, "stores", storeId), "categories"))
+  ).docs.map((doc) => doc.data()) as Category[];
+
+  const categoryRevenue: { [key: string]: number } = {};
+
+  for (const order of ordersData) {
+    for (const item of order.orderItems) {
+      const category = item.category;
+
+      if (category) {
+        let revenueForItem = 0;
+
+        if (item.qty !== undefined) {
+          revenueForItem = item.price * item.qty;
+        } else {
+          revenueForItem = item.price;
+        }
+
+        categoryRevenue[category] =
+          (categoryRevenue[category] || 0) + revenueForItem;
+      }
+    }
+  }
+
+  for (const category of categories) {
+    categoryRevenue[category.name] = categoryRevenue[category.name] || 0; // Set the initial value to 0 for each category
+  }
+
+  // Update graphData using the categories array
+  const graphData: GraphData[] = categories.map((category) => ({
+    name: category.name,
+    total: categoryRevenue[category.name] || 0,
+  }));
+
+  return graphData;
+};
+
+
+------------------------------------------------------------------------------
+
+import { db } from "@/lib/firebase";
+import { Order } from "@/types-db";
+import { collection, doc, getDocs } from "firebase/firestore";
+
+interface GraphData {
+  name: string;
+  total: number;
+}
+
+export const getOrderPaymentStatusTotalRevenue = async (storeId: string) => {
+  const ordersData = (
+    await getDocs(collection(doc(db, "stores", storeId), "orders"))
+  ).docs.map((doc) => doc.data()) as Order[];
+
+  const statusRevenue: { [key: string]: number } = {};
+
+  for (const order of ordersData) {
+    const status = order.isPaid ? "Paid" : "Not Paid";
+
+    if (status) {
+      let revenueForOrder = 0;
+
+      for (const item of order.orderItems) {
+        if (item.qty !== undefined) {
+          revenueForOrder += item.price * item.qty;
+        } else {
+          revenueForOrder += item.price;
+        }
+      }
+
+      statusRevenue[status] = (statusRevenue[status] || 0) + revenueForOrder;
+    }
+  }
+
+  // Create a map to convert month names to numeric representation
+  const statusMap: { [key: string]: number } = {
+    Paid: 0,
+    "Not Paid": 1,
+  };
+
+  // Update graphData using the month map
+  const graphData: GraphData[] = Object.keys(statusMap).map((statusName) => ({
+    name: statusName,
+    total: statusRevenue[statusName] || 0,
+  }));
+
+  return graphData;
+};
+
+
+------------------------------------------------------------------------------
+    
+    import { db } from "@/lib/firebase";
+import { Order } from "@/types-db";
+import { collection, doc, getDocs } from "firebase/firestore";
+
+interface GraphData {
+  name: string;
+  total: number;
+}
+
+export const getOrderStatusTotalRevenue = async (storeId: string) => {
+  const ordersData = (
+    await getDocs(collection(doc(db, "stores", storeId), "orders"))
+  ).docs.map((doc) => doc.data()) as Order[];
+
+  const statusRevenue: { [key: string]: number } = {};
+
+  for (const order of ordersData) {
+    const status = order.order_status;
+
+    if (status) {
+      let revenueForOrder = 0;
+
+      for (const item of order.orderItems) {
+        if (item.qty !== undefined) {
+          revenueForOrder += item.price * item.qty;
+        } else {
+          revenueForOrder += item.price;
+        }
+      }
+
+      statusRevenue[status] = (statusRevenue[status] || 0) + revenueForOrder;
+    }
+  }
+
+  // Create a map to convert month names to numeric representation
+  const statusMap: { [key: string]: number } = {
+    Processing: 0,
+    Delivering: 1,
+    Delivered: 2,
+    Canceled: 3,
+  };
+
+  // Update graphData using the month map
+  const graphData: GraphData[] = Object.keys(statusMap).map((statusName) => ({
+    name: statusName,
+    total: statusRevenue[statusName] || 0,
+  }));
+
+  return graphData;
+};
+
+    
+------------------------------------------------------------------------------
+import { db } from "@/lib/firebase";
+import { Order } from "@/types-db";
+import { collection, doc, getDocs } from "firebase/firestore";
+
+export const getTotalRevenue = async (storeId: string) => {
+  const ordersData = (
+    await getDocs(collection(doc(db, "stores", storeId), "orders"))
+  ).docs.map((doc) => doc.data()) as Order[];
+
+  const paidOrders = ordersData.filter((order) => order.isPaid);
+
+  const totalRevenue = paidOrders.reduce((total, order) => {
+    const orderTotal = order.orderItems.reduce((orderSum, item) => {
+      if (item.qty !== undefined) {
+        return orderSum + item.price * item.qty;
+      } else {
+        return orderSum + item.price;
+      }
+    }, 0);
+    return total + orderTotal;
+  }, 0);
+
+  return totalRevenue;
+};
+
+------------------------------------------------------------------------------
+import { db } from "@/lib/firebase";
+import { collection, doc, getDocs } from "firebase/firestore";
+
+export const getTotalSales = async (storeId: string) => {
+  const ordersData = await getDocs(
+    collection(doc(db, "stores", storeId), "orders")
+  );
+
+  const count = ordersData.size;
+
+  return count;
+};
+
+------------------------------------------------------------------------------
+import { db } from "@/lib/firebase";
+import { collection, doc, getDocs } from "firebase/firestore";
+
+export const getTotalProducts = async (storeId: string) => {
+  const productsData = await getDocs(
+    collection(doc(db, "stores", storeId), "products")
+  );
+
+  const count = productsData.size;
+
+  return count;
+};
