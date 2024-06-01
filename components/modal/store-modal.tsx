@@ -39,7 +39,9 @@ export const StoreModal = () => {
     try {
       const response = await axios.post("/api/stores", values);
       const storeName = response.data.name;
+      const storeId = response.data.id;
       toast(`${storeName} created successfully`);
+      window.location.assign(`/${storeId}`);
       setIsLoading(false);
     } catch (error: any) {
       console.log(`STORE_POST Client Error: ${error.message}`);
@@ -85,6 +87,7 @@ export const StoreModal = () => {
                   variant="outline"
                   type="button"
                   size="sm"
+                  onClick={storeModal.onClose}
                 >
                   Cancel
                 </Button>
