@@ -21,10 +21,11 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
-import { useStoreModal } from "@/hooks/use-store-modal";
 import axios from "axios";
 import { toast } from "sonner";
 import { useConfirm } from "@/hooks/use-confirm";
+import { ApiAlert } from "../../_components/shared/api-alert";
+import { useOrigin } from "@/hooks/use-origin";
 
 interface SettingsFormProps {
   initialData: Store;
@@ -33,7 +34,8 @@ interface SettingsFormProps {
 export const SettingsForm = ({ initialData }: SettingsFormProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
-  const storeModal = useStoreModal();
+
+  const origin = useOrigin();
 
   const [ConfirmDialogue, confirm] = useConfirm(
     "Are you sure?",
@@ -138,6 +140,13 @@ export const SettingsForm = ({ initialData }: SettingsFormProps) => {
           </Button>
         </form>
       </Form>
+
+      <Separator />
+      <ApiAlert
+        title="NEXT_PUBLIC_API_URL"
+        description={`${origin}/api/${params.storeId}`}
+        variant="public"
+      />
     </>
   );
 };

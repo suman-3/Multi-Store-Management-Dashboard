@@ -11,7 +11,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Foodied",
+  title: "Admin Dashboard",
   description: "Manage your store on a single page",
 };
 
@@ -26,7 +26,7 @@ export default function RootLayout({
         <body className={poppins.className}>
           <ModalProvider />
           {children}
-          <Toaster/>
+          <Toaster />
         </body>
       </html>
     </ClerkProvider>
