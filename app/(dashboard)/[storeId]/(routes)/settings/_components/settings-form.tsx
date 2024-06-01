@@ -134,7 +134,7 @@ export const SettingsForm = ({ initialData }: SettingsFormProps) => {
             loadingText="Updating..."
             isLoading={isLoading}
           >
-            Save Changes
+            Update Store
           </Button>
         </form>
       </Form>
