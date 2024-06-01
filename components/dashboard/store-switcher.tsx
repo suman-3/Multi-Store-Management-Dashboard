@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/popover";
 import { Store } from "@/types-db";
 import { useParams, useRouter } from "next/navigation";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import { Check, ChevronsUpDown, StoreIcon } from "lucide-react";
 import {
   Command,
@@ -16,10 +16,13 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-} from "../ui/command";
+  CommandSeparator,
+} from "@/components/ui/command";
 import { cn } from "@/lib/utils";
-import { Input } from "../ui/input";
+import { Input } from "@/components/ui/input";
 import { StoreListItem } from "./store-list-item";
+import { useStoreModal } from "@/hooks/use-store-modal";
+import { CreateNewStoreItem } from "./create-store-item";
 
 type PopoverTriggerProps = React.ComponentPropsWithoutRef<
   typeof PopoverTrigger
@@ -36,6 +39,7 @@ export const StoreSwitcher = ({ items }: StoreSwitcherProps) => {
     []
   );
 
+  const storeModal = useStoreModal()
   const params = useParams();
   const router = useRouter();
 
@@ -114,6 +118,17 @@ export const StoreSwitcher = ({ items }: StoreSwitcherProps) => {
               ) : (
                 <CommandEmpty>No stores found</CommandEmpty>
               )}
+            </CommandGroup>
+          </CommandList>
+          <CommandSeparator />
+          <CommandList>
+            <CommandGroup>
+              <CreateNewStoreItem
+              onClick={()=>{
+                setOpen(false)
+                storeModal.onOpen()
+              }}
+              />
             </CommandGroup>
           </CommandList>
         </Command>
