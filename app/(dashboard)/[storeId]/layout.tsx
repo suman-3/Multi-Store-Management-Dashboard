@@ -3,6 +3,7 @@ import { auth } from "@clerk/nextjs/server";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { redirect } from "next/navigation";
 import { Store } from "@/types-db";
+import Navbar from "@/components/shared/navbar";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -36,7 +37,7 @@ let store
 
   return (
     <>
-    This is thye navbar
+   <Navbar/>
     {children}
 
     </>
