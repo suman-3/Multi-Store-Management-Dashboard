@@ -7,6 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
+import axios from "axios";
 import {
   Form,
   FormControl,
@@ -18,11 +19,12 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
+import { toast } from "sonner";
 
 export const StoreModal = () => {
   const storeModal = useStoreModal();
 
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const form = useForm<z.infer<typeof newStoreFromSchema>>({
     resolver: zodResolver(newStoreFromSchema),
@@ -31,9 +33,20 @@ export const StoreModal = () => {
     },
   });
 
-  function onSubmit(values: z.infer<typeof newStoreFromSchema>) {
-    console.log(values);
-  }
+  const onSubmit = async (values: z.infer<typeof newStoreFromSchema>) => {
+    setIsLoading(true);
+
+    try {
+      const response = await axios.post("/api/stores", values);
+      const storeName = response.data.name;
+      toast(`${storeName} created successfully`);
+      setIsLoading(false);
+    } catch (error: any) {
+      console.log(`STORE_POST Client Error: ${error.message}`);
+      toast("An error occurred,while creating the store");
+      setIsLoading(false);
+    }
+  };
 
   return (
     <Modal
@@ -75,7 +88,13 @@ export const StoreModal = () => {
                 >
                   Cancel
                 </Button>
-                <Button disabled={isLoading} type="submit" size="sm">
+                <Button
+                  disabled={isLoading}
+                  type="submit"
+                  size="sm"
+                  loadingText="Creating..."
+                  isLoading={isLoading}
+                >
                   Continue
                 </Button>
               </div>
