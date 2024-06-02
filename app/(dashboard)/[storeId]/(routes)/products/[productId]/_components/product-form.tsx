@@ -13,6 +13,7 @@ import { Separator } from "@/components/ui/separator";
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -30,6 +31,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { Checkbox } from "@/components/ui/checkbox";
 
 interface ProductFormProps {
   initialData: Product;
@@ -182,6 +184,24 @@ export const ProductForm = ({
             />
             <FormField
               control={form.control}
+              name="qty"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Quantity</FormLabel>
+                  <FormControl>
+                    <Input
+                      disabled={isLoading}
+                      placeholder="0"
+                      {...field}
+                      type="number"
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
               name="category"
               render={({ field }) => (
                 <FormItem>
@@ -308,6 +328,50 @@ export const ProductForm = ({
                       ))}
                     </SelectContent>
                   </Select>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="isFeatured"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-3">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>Featured</FormLabel>
+                    <FormDescription>
+                      This product will be on hoem screen under featured
+                      products
+                    </FormDescription>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="isArchived"
+              render={({ field }) => (
+                <FormItem className="flex flex-row items-start space-x-3 space-y-0 rounded-md border p-3">
+                  <FormControl>
+                    <Checkbox
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                  </FormControl>
+                  <div className="space-y-1 leading-none">
+                    <FormLabel>Archived</FormLabel>
+                    <FormDescription>
+                      This product will not be displayed anywhere inside the
+                      store
+                    </FormDescription>
+                  </div>
                   <FormMessage />
                 </FormItem>
               )}
