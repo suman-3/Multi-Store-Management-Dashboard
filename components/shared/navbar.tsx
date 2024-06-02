@@ -10,7 +10,7 @@ import { db } from "@/lib/firebase";
 import { Store } from "@/types-db";
 import Image from "next/image";
 import Link from "next/link";
-import GithubStarCount from "@/hooks/git-star-count";
+import GithubStarCount from "./git-star-count";
 
 const Navbar = async () => {
   const { userId } = auth();
@@ -48,7 +48,7 @@ const Navbar = async () => {
         {/* user profile */}
         <div className="ml-auto flex items-center justify-between gap-5">
           <GithubStarCount repoUrl={`${process.env.GIHUB_REPO_LINK}`} />
-          {/* Github star count button  */}
+  
           <ClerkLoading>
             <Skeleton className="w-9 h-9 rounded-full bg-gray-300" />
           </ClerkLoading>
