@@ -1,4 +1,4 @@
-# Food deligvary Multi Store Website 
+#  Manage Multi E Commerce  Store in only one place
 
 
 
