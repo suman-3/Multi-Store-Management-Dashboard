@@ -60,15 +60,6 @@ GIHUB_REPO_LINK=
 npm run dev
 ```
 
-## Available commands
-
-Running commands with npm `npm run [command]`
-
-| `dev`           | Starts a development instance of the app |
-
-and copy the .env.example variables into a separate .env file, fill them out & and that's all you need to get started!
-
-
 ## License
 
 [MIT](https://choosealicense.com/licenses/mit/)
