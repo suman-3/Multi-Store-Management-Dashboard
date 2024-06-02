@@ -13,6 +13,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useConfirm } from "@/hooks/use-confirm";
 import { Button } from "@/components/ui/button";
 import { Copy, MoreVertical, PencilLine, Trash2 } from "lucide-react";
+import { toast } from "sonner";
 
 interface CellActionProps {
   data: BillBoardColumns;
@@ -28,6 +29,11 @@ export const CellAction = ({ data }: CellActionProps) => {
   const router = useRouter();
   const params = useParams();
 
+  const onCopy = (id: string) => {
+    navigator.clipboard.writeText(id);
+    toast("Billboard ID Copied");
+  };
+
   return (
     <>
       <ConfirmDialogue />
@@ -40,11 +46,19 @@ export const CellAction = ({ data }: CellActionProps) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="text-sm">
           <DropdownMenuLabel>Actions</DropdownMenuLabel>
-          <DropdownMenuItem className="cursor-pointer" onClick={() => {}}>
+          <DropdownMenuItem
+            className="cursor-pointer"
+            onClick={() => onCopy(data.id)}
+          >
             <Copy className="w-4 h-4 mr-2" />
             Copy Id
           </DropdownMenuItem>
-          <DropdownMenuItem className="cursor-pointer" onClick={() => {}}>
+          <DropdownMenuItem
+            className="cursor-pointer"
+            onClick={() =>
+              router.push(`/${params.storeId}/billboards/${data.id}`)
+            }
+          >
             <PencilLine className="w-4 h-4 mr-2" />
             Update
           </DropdownMenuItem>

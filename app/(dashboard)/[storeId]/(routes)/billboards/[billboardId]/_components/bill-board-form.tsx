@@ -47,7 +47,7 @@ export const BillBoardForm = ({ initialData }: BillBoardFormProps) => {
   const toastErrorMessage = initialData
     ? "Billboard update failed"
     : "Billboard creation failed";
-  const action = initialData ? "Update Billboard" : "Create Billboard";
+  const action = initialData ? "Update" : "Create Billboard";
   const actionLoadingText = initialData ? "Updating" : "Creating";
 
   const [ConfirmDialogue, confirm] = useConfirm(
@@ -100,6 +100,7 @@ export const BillBoardForm = ({ initialData }: BillBoardFormProps) => {
         });
 
         router.push(`/${params.storeId}/billboards`);
+        router.refresh()
         toast("Billboard removed");
         setIsDeleting(false);
       } catch (error: any) {
