@@ -112,7 +112,7 @@ export const DELETE = async (
       }
     }
 
-    const categoryRef = doc(
+    const sizeRef = doc(
       db,
       "stores",
       params.storeId,
@@ -120,7 +120,7 @@ export const DELETE = async (
       params.sizeId
     );
 
-    await deleteDoc(categoryRef);
+    await deleteDoc(sizeRef);
     return NextResponse.json({
       msg: "Sizes deleted",
     });

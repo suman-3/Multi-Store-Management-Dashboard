@@ -34,6 +34,7 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { ImagesUpload } from "@/components/shared/images-uploader";
 
+
 interface ProductFormProps {
   initialData: Product;
   categories: Category[];
@@ -49,6 +50,9 @@ export const ProductForm = ({
   kitchens,
   cuisines,
 }: ProductFormProps) => {
+
+  
+
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
@@ -70,7 +74,7 @@ export const ProductForm = ({
 
   const form = useForm<z.infer<typeof ProductFormSchema>>({
     resolver: zodResolver(ProductFormSchema),
-    defaultValues: {
+    defaultValues: initialData ||{
       name: "",
       price: 0,
       qty: 0,
@@ -120,6 +124,7 @@ export const ProductForm = ({
         await axios.delete(
           `/api/${params.storeId}/products/${params.productId}`
         );
+
         router.push(`/${params.storeId}/products`);
         router.refresh();
         toast("Product removed");

@@ -11,7 +11,7 @@ const CreateSizePage = async ({
   params: { storeId: string; productId: string };
 }) => {
   const product = (
-    await getDoc(doc(db, "stores", params.storeId, "sizes", params.productId))
+    await getDoc(doc(db, "stores", params.storeId, "products", params.productId))
   ).data() as Product;
 
   const categoriesData = (

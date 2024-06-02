@@ -9,12 +9,16 @@ import { Plus } from "lucide-react";
 import { DataTable } from "@/components/shared/data-table";
 import { ProductsColumns, columns } from "./column";
 import { ApiList } from "../../_components/shared/api-list";
+import { date } from "zod";
 
 interface ProductClientProps {
   data: ProductsColumns[];
 }
 
+
+
 export const ProductClient = ({ data }: ProductClientProps) => {
+  
   const params = useParams();
   const router = useRouter();
   return (

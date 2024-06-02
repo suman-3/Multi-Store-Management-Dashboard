@@ -95,30 +95,26 @@ export const ImagesUpload = ({
 
   return (
     <div>
-      {/* {value && value.length > 0 ? ( */}
-        <>
-          <div className="mb-4 flex items-center gap-4">
-            {value.map((url) => (
-              <div
-                className="relative w-52 h-52 rounded-md overflow-hidden object-contain"
-                key={url}
+      <div className="mb-4 items-center grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-3 w-full">
+        {value.map((url) => (
+          <div
+            className="relative w-52 h-52 rounded-md overflow-hidden object-contain"
+            key={url}
+          >
+            <Image src={url} alt={url} className="object-cover" fill />
+            <div className="absolute z-10 top-2 right-2">
+              <Button
+                variant={"destructive"}
+                size={"icon"}
+                type="button"
+                onClick={() => onDelete(url)}
               >
-                <Image src={url} alt={url} className="object-cover" fill />
-                <div className="absolute z-10 top-2 right-2">
-                  <Button
-                    variant={"destructive"}
-                    size={"icon"}
-                    type="button"
-                    onClick={() => onDelete(url)}
-                  >
-                    <CircleX className="h-4 w-4" />
-                  </Button>
-                </div>
-              </div>
-            ))}
+                <CircleX className="h-4 w-4" />
+              </Button>
+            </div>
           </div>
-        </>
-      {/* ) : ( */}
+        ))}
+
         <div className="w-52 h-52 rounded-md overflow-hidden border border-dashed border-gray-200 flex items-center justify-center flex-col gap-3 object-contain bg-gray-100">
           {isLoading ? (
             <>
@@ -148,7 +144,7 @@ export const ImagesUpload = ({
             </>
           )}
         </div>
-      {/* )} */}
+      </div>
     </div>
   );
 };

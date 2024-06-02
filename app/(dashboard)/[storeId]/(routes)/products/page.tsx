@@ -5,6 +5,7 @@ import { Product} from "@/types-db";
 import { ProductsColumns } from "./_components/column";
 import { priceFormatter } from "@/lib/utils";
 import { ProductClient } from "./_components/product-client";
+import { log } from "console";
 
 const ProductsPage = async ({ params }: { params: { storeId: string } }) => {
   const productsData = (
