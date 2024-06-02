@@ -6,8 +6,14 @@ import { Heading } from "../../_components/shared/heading";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
+import { DataTable } from "@/components/shared/data-table";
+import { BillBoardColumns, columns } from "./columns";
 
-export const BillBoardClient = () => {
+interface BillBoardClientProps {
+  data: BillBoardColumns[];
+}
+
+export const BillBoardClient = ({ data }: BillBoardClientProps) => {
   const params = useParams();
   const router = useRouter();
   return (
@@ -25,6 +31,8 @@ export const BillBoardClient = () => {
         </Button>
       </div>
       <Separator />
+
+      <DataTable columns={columns} data={data} />
     </>
   );
 };

@@ -75,8 +75,9 @@ export const BillBoardForm = ({ initialData }: BillBoardFormProps) => {
         await axios.post(`/api/${params.storeId}/billboards`, data);
       }
       toast(toastMessage);
-      router.refresh();
+
       router.push(`/${params.storeId}/billboards`);
+      router.refresh();
       setIsLoading(false);
     } catch (error: any) {
       console.log(`Client Error: ${error.message}`);
