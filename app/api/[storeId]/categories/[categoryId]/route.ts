@@ -1,5 +1,5 @@
 import { db } from "@/lib/firebase";
-import { Billboards } from "@/types-db";
+import { Billboards, Category } from "@/types-db";
 import { auth } from "@clerk/nextjs/server";
 import {
   deleteDoc,
@@ -12,7 +12,7 @@ import { NextResponse } from "next/server";
 
 export const PATCH = async (
   req: Request,
-  { params }: { params: { storeId: string; billboardId: string } }
+  { params }: { params: { storeId: string; categoryId: string } }
 ) => {
   try {
     const { userId } = auth();
@@ -22,16 +22,16 @@ export const PATCH = async (
       return new NextResponse("Unauthorized", { status: 400 });
     }
 
-    const { label, imageUrl } = body;
+    const { name, billboardId, billboardLabel } = body;
 
-    if (!label) {
-      return new NextResponse("billboard name is required/missing", {
+    if (!name) {
+      return new NextResponse("Category name is required/missing", {
         status: 400,
       });
     }
 
-    if (!imageUrl) {
-      return new NextResponse("billboard image is required/missing", {
+    if (!billboardId) {
+      return new NextResponse("billboard  is required/missing", {
         status: 400,
       });
     }
@@ -39,8 +39,8 @@ export const PATCH = async (
     if (!params.storeId) {
       return new NextResponse("Store ID is required/missing", { status: 400 });
     }
-    if (!params.billboardId) {
-      return new NextResponse("Billboard ID is required/missing", {
+    if (!params.categoryId) {
+      return new NextResponse("Category ID is required/missing", {
         status: 400,
       });
     }
@@ -54,40 +54,41 @@ export const PATCH = async (
       }
     }
 
-    const billboardRef = await getDoc(
-      doc(db, "stores", params.storeId, "billboards", params.billboardId)
+    const categoryRef = await getDoc(
+      doc(db, "stores", params.storeId, "categories", params.categoryId)
     );
 
-    if (billboardRef.exists()) {
+    if (categoryRef.exists()) {
       await updateDoc(
-        doc(db, "stores", params.storeId, "billboards", params.billboardId),
+        doc(db, "stores", params.storeId, "categories", params.categoryId),
         {
-          ...billboardRef.data(),
-          label,
-          imageUrl,
+          ...categoryRef.data(),
+          name,
+          billboardId,
+          billboardLabel,
           updatedAt: serverTimestamp(),
         }
       );
     } else {
-      return new NextResponse("Billboard not found", { status: 404 });
+      return new NextResponse("Category not found", { status: 404 });
     }
 
-    const billboard = (
+    const category = (
       await getDoc(
-        doc(db, "stores", params.storeId, "billboards", params.billboardId)
+        doc(db, "stores", params.storeId, "categories", params.categoryId)
       )
-    ).data() as Billboards;
+    ).data() as Category;
 
-    return NextResponse.json(billboard);
+    return NextResponse.json(category);
   } catch (error: any) {
-    console.log(`BILLBOARD_PATCH Error: ${error.message}`);
+    console.log(`CATEGORY_PATCH Error: ${error.message}`);
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 };
 
 export const DELETE = async (
   req: Request,
-  { params }: { params: { storeId: string; billboardId: string } }
+  { params }: { params: { storeId: string; categoryId: string } }
 ) => {
   try {
     const { userId } = auth();
@@ -99,8 +100,8 @@ export const DELETE = async (
     if (!params.storeId) {
       return new NextResponse("Store ID is required/missing", { status: 400 });
     }
-    if (!params.billboardId) {
-      return new NextResponse("Billboard ID is required/missing", {
+    if (!params.categoryId) {
+      return new NextResponse("Category ID is required/missing", {
         status: 400,
       });
     }
@@ -114,20 +115,20 @@ export const DELETE = async (
       }
     }
 
-    const billboardRef = doc(
+    const categoryRef = doc(
       db,
       "stores",
       params.storeId,
-      "billboards",
-      params.billboardId
+      "categories",
+      params.categoryId
     );
 
-    await deleteDoc(billboardRef);
+    await deleteDoc(categoryRef);
     return NextResponse.json({
-        msg: "Billboard deleted",
-      });
+      msg: "Category deleted",
+    });
   } catch (error: any) {
-    console.log(`BILLBOARD_DELETE Error: ${error.message}`);
+    console.log(`CATEGORY_DELETE Error: ${error.message}`);
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 };

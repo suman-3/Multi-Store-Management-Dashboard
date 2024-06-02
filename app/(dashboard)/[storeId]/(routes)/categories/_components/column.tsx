@@ -4,6 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { CellAction } from "./cell-action";
 
 export type CategoryColumns = {
   id: string;
@@ -54,5 +55,9 @@ export const columns: ColumnDef<CategoryColumns>[] = [
         </Button>
       );
     },
+  },
+  {
+    id: "actions",
+    cell: ({ row }) => <CellAction data={row.original} />,
   },
 ];

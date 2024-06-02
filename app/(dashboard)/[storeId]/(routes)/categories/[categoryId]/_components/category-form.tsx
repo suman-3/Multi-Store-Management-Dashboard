@@ -70,13 +70,25 @@ export const CategoryForm = ({
   const onSubmit = async (data: z.infer<typeof CategoryFormSchema>) => {
     setIsLoading(true);
     try {
+      const { billboardId: formBillId } = form.getValues();
+
+      const matchingBillboard = billboards.find(
+        (item) => item.id === formBillId
+      );
+
       if (initialData) {
         await axios.patch(
           `/api/${params.storeId}/categories/${params.categoryId}`,
-          data
+          {
+            ...data,
+            billboardLabel: matchingBillboard?.label,
+          }
         );
       } else {
-        await axios.post(`/api/${params.storeId}/categories`, data);
+        await axios.post(`/api/${params.storeId}/categories`, {
+          ...data,
+          billboardLabel: matchingBillboard?.label,
+        });
       }
       toast(toastMessage);
 
@@ -97,9 +109,10 @@ export const CategoryForm = ({
 
     if (ok) {
       try {
-        await axios.patch(
+        await axios.delete(
           `/api/${params.storeId}/categories/${params.categoryId}`
         );
+        router.push(`/${params.storeId}/categories`);
         router.refresh();
         toast("Category removed");
         setIsDeleting(false);
