@@ -10,11 +10,11 @@ import { DataTable } from "@/components/shared/data-table";
 import { SizesColumns, columns } from "./column";
 import { ApiList } from "../../_components/shared/api-list";
 
-interface CategoryClientProps {
+interface SizeClientProps {
   data: SizesColumns[];
 }
 
-export const SizesClient = ({ data }: CategoryClientProps) => {
+export const SizesClient = ({ data }: SizeClientProps) => {
   const params = useParams();
   const router = useRouter();
   return (

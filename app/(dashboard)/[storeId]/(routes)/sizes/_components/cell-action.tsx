@@ -16,17 +16,18 @@ import { toast } from "sonner";
 import { deleteObject, ref } from "firebase/storage";
 import { storage } from "@/lib/firebase";
 import axios from "axios";
-import { CategoryColumns } from "./column";
+import { SizesColumns } from "./column";
+
 
 interface CellActionProps {
-  data: CategoryColumns;
+  data: SizesColumns;
 }
 
 export const CellAction = ({ data }: CellActionProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [ConfirmDialogue, confirm] = useConfirm(
     "Are you sure?",
-    "You are about to delete this category."
+    "You are about to delete this size."
   );
 
   const router = useRouter();
@@ -34,7 +35,7 @@ export const CellAction = ({ data }: CellActionProps) => {
 
   const onCopy = (id: string) => {
     navigator.clipboard.writeText(id);
-    toast("Category ID Copied");
+    toast("Size ID Copied");
   };
 
   const onDelete = async () => {
@@ -43,13 +44,13 @@ export const CellAction = ({ data }: CellActionProps) => {
 
     if (ok) {
       try {
-        await axios.delete(`/api/${params.storeId}/categories/${data.id}`);
+        await axios.delete(`/api/${params.storeId}/sizes/${data.id}`);
         router.refresh();
-        toast("Category removed");
+        toast("Size removed");
         setIsLoading(false);
       } catch (error: any) {
         console.log(`Client Error: ${error.message}`);
-        toast("An error occurred,while deleting the category");
+        toast("An error occurred,while deleting the size");
         setIsLoading(false);
       }
     }
@@ -78,7 +79,7 @@ export const CellAction = ({ data }: CellActionProps) => {
           <DropdownMenuItem
             className="cursor-pointer"
             onClick={() =>
-              router.push(`/${params.storeId}/categories/${data.id}`)
+              router.push(`/${params.storeId}/sizes/${data.id}`)
             }
           >
             <PencilLine className="w-4 h-4 mr-2" />
