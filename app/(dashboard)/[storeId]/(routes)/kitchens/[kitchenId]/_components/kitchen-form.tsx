@@ -1,6 +1,6 @@
 "use client";
 import { useConfirm } from "@/hooks/use-confirm";
-import { Size } from "@/types-db";
+import { Kitchen } from "@/types-db";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -22,52 +22,53 @@ import {
 import { Input } from "@/components/ui/input";
 import axios from "axios";
 import { toast } from "sonner";
-import { SizeFormSchema } from "@/schemas/SizeFormSchema";
-
-interface SizeFormProps {
-  initialData: Size;
+import { KitchenFormSchema } from "@/schemas/KitchenFormSchema";
+interface KitchenFormProps {
+  initialData: Kitchen;
 }
 
-export const SizeForm = ({ initialData }: SizeFormProps) => {
+export const KitchenForm = ({ initialData }: KitchenFormProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
-  const title = initialData ? "Edit Size" : "Create Size";
-  const description = initialData ? "Edit your size" : "Create a new size";
-  const toastMessage = initialData ? "Size updated" : "Size created";
+  const title = initialData ? "Edit Kitchen" : "Create Kitchen";
+  const description = initialData
+    ? "Edit your kitchen"
+    : "Create a new kitchen";
+  const toastMessage = initialData ? "Kitchen updated" : "Kitchen created";
   const toastErrorMessage = initialData
-    ? "Size update failed"
-    : "Size creation failed";
-  const action = initialData ? "Update" : "Create Size";
+    ? "Kitchen update failed"
+    : "Kitchen creation failed";
+  const action = initialData ? "Update" : "Create Kitchen";
   const actionLoadingText = initialData ? "Updating" : "Creating";
 
   const [ConfirmDialogue, confirm] = useConfirm(
     "Are you sure?",
-    "You are about to delete thsi size."
+    "You are about to delete thsi kitchen."
   );
 
-  const form = useForm<z.infer<typeof SizeFormSchema>>({
-    resolver: zodResolver(SizeFormSchema),
+  const form = useForm<z.infer<typeof KitchenFormSchema>>({
+    resolver: zodResolver(KitchenFormSchema),
     defaultValues: initialData,
   });
 
   const params = useParams();
   const router = useRouter();
 
-  const onSubmit = async (data: z.infer<typeof SizeFormSchema>) => {
+  const onSubmit = async (data: z.infer<typeof KitchenFormSchema>) => {
     setIsLoading(true);
     try {
       if (initialData) {
         await axios.patch(
-          `/api/${params.storeId}/sizes/${params.sizeId}`,
+          `/api/${params.storeId}/kitchens/${params.kitchenId}`,
           data
         );
       } else {
-        await axios.post(`/api/${params.storeId}/sizes`, data);
+        await axios.post(`/api/${params.storeId}/kitchens`, data);
       }
       toast(toastMessage);
 
-      router.push(`/${params.storeId}/sizes`);
+      router.push(`/${params.storeId}/kitchens`);
       router.refresh();
     } catch (error: any) {
       console.log(`Client Error: ${error.message}`);
@@ -84,14 +85,16 @@ export const SizeForm = ({ initialData }: SizeFormProps) => {
 
     if (ok) {
       try {
-        await axios.delete(`/api/${params.storeId}/sizes/${params.sizeId}`);
-        router.push(`/${params.storeId}/sizes`);
+        await axios.delete(
+          `/api/${params.storeId}/kitchens/${params.kitchenId}`
+        );
+        router.push(`/${params.storeId}/kitchens`);
         router.refresh();
-        toast("Size removed");
+        toast("Kitchen removed");
         setIsDeleting(false);
       } catch (error: any) {
         console.log(`Client Error: ${error.message}`);
-        toast("An error occurred,while deleting the size");
+        toast("An error occurred,while deleting the kitchen");
         setIsDeleting(false);
       }
     }
@@ -129,11 +132,11 @@ export const SizeForm = ({ initialData }: SizeFormProps) => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Size Label</FormLabel>
+                  <FormLabel>Kitchen Label</FormLabel>
                   <FormControl>
                     <Input
                       disabled={isLoading}
-                      placeholder="your size name..."
+                      placeholder="your kitchen name..."
                       {...field}
                     />
                   </FormControl>
@@ -146,11 +149,11 @@ export const SizeForm = ({ initialData }: SizeFormProps) => {
               name="value"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Size Value</FormLabel>
+                  <FormLabel>Kitchen Value</FormLabel>
                   <FormControl>
                     <Input
                       disabled={isLoading}
-                      placeholder="your size value..."
+                      placeholder="your kitchen value..."
                       {...field}
                     />
                   </FormControl>

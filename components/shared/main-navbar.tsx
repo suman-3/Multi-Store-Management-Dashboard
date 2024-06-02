@@ -38,6 +38,12 @@ export const MainNav = ({
         pathname === `/${params.storeId}/sizes` || pathname.includes("sizes"),
     },
     {
+      href: `/${params.storeId}/kitchens`,
+      label: "Kitchens",
+      active:
+        pathname === `/${params.storeId}/kitchens` || pathname.includes("kitchens"),
+    },
+    {
       href: `/${params.storeId}/settings`,
       label: "Settings",
       active: pathname === `/${params.storeId}/settings`,

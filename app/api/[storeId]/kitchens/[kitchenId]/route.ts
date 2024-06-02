@@ -12,7 +12,7 @@ import { NextResponse } from "next/server";
 
 export const PATCH = async (
   req: Request,
-  { params }: { params: { storeId: string; sizeId: string } }
+  { params }: { params: { storeId: string; kitchenId: string } }
 ) => {
   try {
     const { userId } = auth();
@@ -25,13 +25,13 @@ export const PATCH = async (
     const { name, value } = body;
 
     if (!name) {
-      return new NextResponse("Size name is required/missing", {
+      return new NextResponse("Kitchen name is required/missing", {
         status: 400,
       });
     }
 
     if (!value) {
-      return new NextResponse("Size value is required/missing", {
+      return new NextResponse("kitchen value is required/missing", {
         status: 400,
       });
     }
@@ -39,8 +39,8 @@ export const PATCH = async (
     if (!params.storeId) {
       return new NextResponse("Store ID is required/missing", { status: 400 });
     }
-    if (!params.sizeId) {
-      return new NextResponse("Size ID is required/missing", {
+    if (!params.kitchenId) {
+      return new NextResponse("Kitchen ID is required/missing", {
         status: 400,
       });
     }
@@ -54,15 +54,15 @@ export const PATCH = async (
       }
     }
 
-    const sizeRef = await getDoc(
-      doc(db, "stores", params.storeId, "sizes", params.sizeId)
+    const kitchenRef = await getDoc(
+      doc(db, "stores", params.storeId, "kitchens", params.kitchenId)
     );
 
-    if (sizeRef.exists()) {
+    if (kitchenRef.exists()) {
       await updateDoc(
-        doc(db, "stores", params.storeId, "sizes", params.sizeId),
+        doc(db, "stores", params.storeId, "kitchens", params.kitchenId),
         {
-          ...sizeRef.data(),
+          ...kitchenRef.data(),
           name,
           value,
           updatedAt: serverTimestamp(),
@@ -72,20 +72,22 @@ export const PATCH = async (
       return new NextResponse("Size not found", { status: 404 });
     }
 
-    const size = (
-      await getDoc(doc(db, "stores", params.storeId, "sizes", params.sizeId))
+    const kitchen = (
+      await getDoc(
+        doc(db, "stores", params.storeId, "kitchens", params.kitchenId)
+      )
     ).data() as Size;
 
-    return NextResponse.json(size);
+    return NextResponse.json(kitchen);
   } catch (error: any) {
-    console.log(`SIZES_PATCH Error: ${error.message}`);
+    console.log(`KITCHENS_PATCH Error: ${error.message}`);
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 };
 
 export const DELETE = async (
   req: Request,
-  { params }: { params: { storeId: string; sizeId: string } }
+  { params }: { params: { storeId: string; kitchenId: string } }
 ) => {
   try {
     const { userId } = auth();
@@ -97,8 +99,8 @@ export const DELETE = async (
     if (!params.storeId) {
       return new NextResponse("Store ID is required/missing", { status: 400 });
     }
-    if (!params.sizeId) {
-      return new NextResponse("Size ID is required/missing", {
+    if (!params.kitchenId) {
+      return new NextResponse("Kitchen ID is required/missing", {
         status: 400,
       });
     }
@@ -112,20 +114,20 @@ export const DELETE = async (
       }
     }
 
-    const categoryRef = doc(
+    const kitchenRef = doc(
       db,
       "stores",
       params.storeId,
-      "sizes",
-      params.sizeId
+      "kitchens",
+      params.kitchenId
     );
 
-    await deleteDoc(categoryRef);
+    await deleteDoc(kitchenRef);
     return NextResponse.json({
-      msg: "Sizes deleted",
+      msg: "Kitchens deleted",
     });
   } catch (error: any) {
-    console.log(`SIZES_DELETE Error: ${error.message}`);
+    console.log(`KITCHEN_DELETE Error: ${error.message}`);
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 };
