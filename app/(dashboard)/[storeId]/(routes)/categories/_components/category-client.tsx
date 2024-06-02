@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { DataTable } from "@/components/shared/data-table";
 import { CategoryColumns, columns } from "./column";
-
+import { ApiList } from "../../_components/shared/api-list";
 
 interface CategoryClientProps {
   data: CategoryColumns[];
@@ -33,7 +33,10 @@ export const CategoryClient = ({ data }: CategoryClientProps) => {
       </div>
       <Separator />
       <DataTable columns={columns} data={data} searchKey="name" />
-    
+
+      <Heading title="API" description="API calls for categories" />
+      <Separator />
+      <ApiList entityName="categories" entityNameId="categoryId" />
     </>
   );
 };
