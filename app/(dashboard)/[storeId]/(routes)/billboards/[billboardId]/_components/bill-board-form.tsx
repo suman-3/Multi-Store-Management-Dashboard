@@ -28,6 +28,8 @@ import { Heading } from "../../../_components/shared/heading";
 import { Trash } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
 import { ImageUploader } from "@/components/shared/image-uploader";
+import { deleteObject, ref } from "firebase/storage";
+import { storage } from "@/lib/firebase";
 
 interface BillBoardFormProps {
   initialData: Billboards;
@@ -42,7 +44,11 @@ export const BillBoardForm = ({ initialData }: BillBoardFormProps) => {
     ? "Edit your billboard"
     : "Create a new billboard";
   const toastMessage = initialData ? "Billboard updated" : "Billboard created";
+  const toastErrorMessage = initialData
+    ? "Billboard update failed"
+    : "Billboard creation failed";
   const action = initialData ? "Update Billboard" : "Create Billboard";
+  const actionLoadingText = initialData ? "Updating" : "Creating";
 
   const [ConfirmDialogue, confirm] = useConfirm(
     "Are you sure?",
@@ -60,14 +66,21 @@ export const BillBoardForm = ({ initialData }: BillBoardFormProps) => {
   const onSubmit = async (data: z.infer<typeof BillBoardFormSchema>) => {
     setIsLoading(true);
     try {
-      const response = await axios.patch(`/api/stores/${params.storeId}`, data);
-      const storeName = response.data.name;
-      toast(`${storeName} updated`);
+      if (initialData) {
+        await axios.patch(
+          `/api/${params.storeId}/billboards/${params.billboardId}`,
+          data
+        );
+      } else {
+        await axios.post(`/api/${params.storeId}/billboards`, data);
+      }
+      toast(toastMessage);
       router.refresh();
+      router.push(`/${params.storeId}/billboards`);
       setIsLoading(false);
     } catch (error: any) {
       console.log(`Client Error: ${error.message}`);
-      toast("An error occurred,while updating the store");
+      toast(toastErrorMessage);
       setIsLoading(false);
     }
   };
@@ -78,13 +91,19 @@ export const BillBoardForm = ({ initialData }: BillBoardFormProps) => {
 
     if (ok) {
       try {
-        const response = await axios.delete(`/api/stores/${params.storeId}`);
-        router.push("/");
-        toast("Store removed");
+        const { imageUrl } = form.getValues();
+        await deleteObject(ref(storage, imageUrl)).then(async () => {
+          await axios.delete(
+            `/api/${params.storeId}/billboards/${params.billboardId}`
+          );
+        });
+
+        router.push(`/${params.storeId}/billboards`);
+        toast("Billboard removed");
         setIsDeleting(false);
       } catch (error: any) {
         console.log(`Client Error: ${error.message}`);
-        toast("An error occurred,while deleting the store");
+        toast("An error occurred,while deleting the billboard");
         setIsDeleting(false);
       }
     }
@@ -158,7 +177,7 @@ export const BillBoardForm = ({ initialData }: BillBoardFormProps) => {
             disabled={isLoading}
             type="submit"
             size="sm"
-            loadingText="Updating..."
+            loadingText={actionLoadingText}
             isLoading={isLoading}
           >
             {action}

@@ -53,7 +53,7 @@ export const SettingsForm = ({ initialData }: SettingsFormProps) => {
   const onSubmit = async (data: z.infer<typeof newStoreFromSchema>) => {
     setIsLoading(true);
     try {
-      const response = await axios.patch(`/api/stores/${params.storeId}`, data);
+      const response = await axios.patch(`/api/${params.storeId}`, data);
       const storeName = response.data.name;
       toast(`${storeName} updated`);
       router.refresh();
@@ -71,7 +71,7 @@ export const SettingsForm = ({ initialData }: SettingsFormProps) => {
 
     if (ok) {
       try {
-        const response = await axios.delete(`/api/stores/${params.storeId}`);
+        const response = await axios.delete(`/api/${params.storeId}`);
         router.push("/");
         toast("Store removed");
         setIsDeleting(false);
@@ -132,7 +132,7 @@ export const SettingsForm = ({ initialData }: SettingsFormProps) => {
             disabled={isLoading}
             type="submit"
             size="sm"
-            loadingText="Updating..."
+            loadingText="Updating"
             isLoading={isLoading}
           >
             Update Store
