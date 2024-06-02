@@ -1,7 +1,7 @@
 "use client";
 import React, { useState, useEffect } from "react";
 
-function GithubStarCount({ repoUrl }: { repoUrl: string }) {
+const  GithubStarCount = ({ repoUrl }: { repoUrl: string })=> {
   const [starCount, setStarCount] = useState(null);
 
   useEffect(() => {

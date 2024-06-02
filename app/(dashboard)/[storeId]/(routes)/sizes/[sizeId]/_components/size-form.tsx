@@ -67,7 +67,7 @@ export const SizeForm = ({ initialData }: SizeFormProps) => {
     try {
       if (initialData) {
         await axios.patch(
-          `/api/${params.storeId}/sizes/${params.categoryId}`,
+          `/api/${params.storeId}/sizes/${params.sizeId}`,
           data
         );
       } else {
