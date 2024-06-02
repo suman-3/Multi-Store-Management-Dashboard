@@ -140,7 +140,7 @@ export const SettingsForm = ({ initialData }: SettingsFormProps) => {
           </Button>
         </form>
       </Form>
-
+    
       <Separator />
       <ApiAlert
         title="NEXT_PUBLIC_API_URL"
