@@ -5,7 +5,6 @@ import {
   DropdownMenuContent,
   DropdownMenuItem,
   DropdownMenuLabel,
-  DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useParams, useRouter } from "next/navigation";
@@ -13,21 +12,21 @@ import { useConfirm } from "@/hooks/use-confirm";
 import { Button } from "@/components/ui/button";
 import { Copy, MoreVertical, PencilLine, Trash2 } from "lucide-react";
 import { toast } from "sonner";
-import { deleteObject, ref } from "firebase/storage";
-import { storage } from "@/lib/firebase";
+
 import axios from "axios";
-import { SizesColumns } from "./column";
+import { ProductsColumns } from "./column";
+
 
 
 interface CellActionProps {
-  data: SizesColumns;
+  data: ProductsColumns;
 }
 
 export const CellAction = ({ data }: CellActionProps) => {
   const [isLoading, setIsLoading] = useState(false);
   const [ConfirmDialogue, confirm] = useConfirm(
     "Are you sure?",
-    "You are about to delete this size."
+    "You are about to delete this product."
   );
 
   const router = useRouter();
@@ -35,7 +34,7 @@ export const CellAction = ({ data }: CellActionProps) => {
 
   const onCopy = (id: string) => {
     navigator.clipboard.writeText(id);
-    toast("Size ID Copied");
+    toast("Product ID Copied");
   };
 
   const onDelete = async () => {
@@ -44,13 +43,13 @@ export const CellAction = ({ data }: CellActionProps) => {
 
     if (ok) {
       try {
-        await axios.delete(`/api/${params.storeId}/sizes/${data.id}`);
+        await axios.delete(`/api/${params.storeId}/products/${data.id}`);
         router.refresh();
-        toast("Size removed");
+        toast("Product removed");
         setIsLoading(false);
       } catch (error: any) {
         console.log(`Client Error: ${error.message}`);
-        toast("An error occurred,while deleting the size");
+        toast("An error occurred,while deleting the product");
         setIsLoading(false);
       }
     }
@@ -79,7 +78,7 @@ export const CellAction = ({ data }: CellActionProps) => {
           <DropdownMenuItem
             className="cursor-pointer"
             onClick={() =>
-              router.push(`/${params.storeId}/sizes/${data.id}`)
+              router.push(`/${params.storeId}/products/${data.id}`)
             }
           >
             <PencilLine className="w-4 h-4 mr-2" />
