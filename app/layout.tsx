@@ -14,8 +14,8 @@ export const metadata: Metadata = {
   title: "Multi Store Dashboard",
   description: "Manage your store on a single page",
   icons: {
-    icon: "/logo.svg"
-  }
+    icon: "/logo.svg",
+  },
 };
 
 export default function RootLayout({
