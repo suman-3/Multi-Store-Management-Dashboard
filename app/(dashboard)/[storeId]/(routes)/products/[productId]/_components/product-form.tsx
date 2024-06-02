@@ -1,6 +1,6 @@
 "use client";
 import { useConfirm } from "@/hooks/use-confirm";
-import { Size } from "@/types-db";
+import { Category, Cuisines, Kitchen, Product, Size } from "@/types-db";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams, useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -22,52 +22,63 @@ import {
 import { Input } from "@/components/ui/input";
 import axios from "axios";
 import { toast } from "sonner";
-import { SizeFormSchema } from "@/schemas/SizeFormSchema";
+import { ProductFormSchema } from "@/schemas/ProductFormSchema";
 
-interface SizeFormProps {
-  initialData: Size;
+interface ProductFormProps {
+  initialData: Product;
+  categories: Category[];
+  sizes: Size[];
+  kitchens: Kitchen[];
+  cuisines: Cuisines[];
 }
 
-export const SizeForm = ({ initialData }: SizeFormProps) => {
+export const ProductForm = ({
+  initialData,
+  categories,
+  sizes,
+  kitchens,
+  cuisines,
+}: ProductFormProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
-  const title = initialData ? "Edit Size" : "Create Size";
-  const description = initialData ? "Edit your size" : "Create a new size";
-  const toastMessage = initialData ? "Size updated" : "Size created";
+  
+  const title = initialData ? "Edit Product" : "Create Product";
+  const description = initialData ? "Edit your product" : "Create a new size";
+  const toastMessage = initialData ? "Product updated" : "Product created";
   const toastErrorMessage = initialData
-    ? "Size update failed"
-    : "Size creation failed";
-  const action = initialData ? "Update" : "Create Size";
+    ? "Product update failed"
+    : "Product creation failed";
+  const action = initialData ? "Update" : "Create Product";
   const actionLoadingText = initialData ? "Updating" : "Creating";
 
   const [ConfirmDialogue, confirm] = useConfirm(
     "Are you sure?",
-    "You are about to delete thsi size."
+    "You are about to delete thsi product."
   );
 
-  const form = useForm<z.infer<typeof SizeFormSchema>>({
-    resolver: zodResolver(SizeFormSchema),
+  const form = useForm<z.infer<typeof ProductFormSchema>>({
+    resolver: zodResolver(ProductFormSchema),
     defaultValues: initialData,
   });
 
   const params = useParams();
   const router = useRouter();
 
-  const onSubmit = async (data: z.infer<typeof SizeFormSchema>) => {
+  const onSubmit = async (data: z.infer<typeof ProductFormSchema>) => {
     setIsLoading(true);
     try {
       if (initialData) {
         await axios.patch(
-          `/api/${params.storeId}/sizes/${params.sizeId}`,
+          `/api/${params.storeId}/products/${params.productId}`,
           data
         );
       } else {
-        await axios.post(`/api/${params.storeId}/sizes`, data);
+        await axios.post(`/api/${params.storeId}/products`, data);
       }
       toast(toastMessage);
 
-      router.push(`/${params.storeId}/sizes`);
+      router.push(`/${params.storeId}/products`);
       router.refresh();
     } catch (error: any) {
       console.log(`Client Error: ${error.message}`);
@@ -84,14 +95,16 @@ export const SizeForm = ({ initialData }: SizeFormProps) => {
 
     if (ok) {
       try {
-        await axios.delete(`/api/${params.storeId}/sizes/${params.sizeId}`);
-        router.push(`/${params.storeId}/sizes`);
+        await axios.delete(
+          `/api/${params.storeId}/products/${params.productId}`
+        );
+        router.push(`/${params.storeId}/products`);
         router.refresh();
-        toast("Size removed");
+        toast("Product removed");
         setIsDeleting(false);
       } catch (error: any) {
         console.log(`Client Error: ${error.message}`);
-        toast("An error occurred,while deleting the size");
+        toast("An error occurred,while deleting the product");
         setIsDeleting(false);
       }
     }
@@ -134,23 +147,6 @@ export const SizeForm = ({ initialData }: SizeFormProps) => {
                     <Input
                       disabled={isLoading}
                       placeholder="your size name..."
-                      {...field}
-                    />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="value"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Size Value</FormLabel>
-                  <FormControl>
-                    <Input
-                      disabled={isLoading}
-                      placeholder="your size value..."
                       {...field}
                     />
                   </FormControl>
