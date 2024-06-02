@@ -15,12 +15,12 @@ import Image from "next/image";
 import { Button } from "../ui/button";
 interface ImageUploaderProps {
   disabled?: boolean;
-  onChange: (value: string) => void;
+  onChange: (value: string[]) => void;
   onRemove: (value: string) => void;
   value: string[];
 }
 
-export const ImageUploader = ({
+export const ImagesUpload = ({
   disabled,
   onChange,
   onRemove,
@@ -36,45 +36,66 @@ export const ImageUploader = ({
 
   if (!isMounted) return null;
 
-  const onUpload = async (e: any) => {
-    const file = e.target.files[0];
-    setIsLoading(true);
-    const uploadTask = uploadBytesResumable(
-      ref(storage, `Image/${Date.now()}-${file.name}`),
-      file,
-      { contentType: file.type }
-    );
+  const onUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files: File[] = Array.from(e.target.files || []);
 
-    uploadTask.on(
-      "state_changed",
-      (snapshot) => {
-        const progress =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
-        setProgress(progress);
-      },
-      (error) => {
-        toast(`something went wrong, ${error.message}`);
-      },
-      () => {
-        getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
-          onChange(downloadURL);
-          setIsLoading(false);
-          toast("Image uploaded successfully");
-        });
-      }
-    );
+    setIsLoading(true);
+
+    // Array to store newly uploaded urls
+    const newUrls: string[] = [];
+
+    // counter to keep track the uploaded images
+    let completedUploads = 0;
+
+    files.forEach((file: File) => {
+      const uploadTask = uploadBytesResumable(
+        ref(storage, `Images/Products/${Date.now()}-${file.name}`),
+        file,
+        { contentType: file.type }
+      );
+
+      uploadTask.on(
+        "state_changed",
+        (snapshot) => {
+          setProgress((snapshot.bytesTransferred / snapshot.totalBytes) * 100);
+        },
+        (error) => {
+          toast.error(error.message);
+        },
+
+        () => {
+          getDownloadURL(uploadTask.snapshot.ref).then((downloadurl) => {
+            // store the newly uploaded url
+            newUrls.push(downloadurl);
+
+            // increment the completed uploades
+            completedUploads++;
+
+            // if all uploads are completed, update the state with the new urls
+            if (completedUploads == files.length) {
+              setIsLoading(false);
+
+              // combine all the new urls with the existing urls
+              onChange([...value, ...newUrls]);
+            }
+          });
+        }
+      );
+    });
   };
 
   const onDelete = (url: string) => {
+    const newValue = value.filter((imageUrl) => imageUrl !== url);
     onRemove(url);
+    onChange(newValue);
     deleteObject(ref(storage, url)).then(() => {
-      toast("Image deleted successfully");
+      toast("Image removed");
     });
   };
 
   return (
     <div>
-      {value && value.length > 0 ? (
+      {/* {value && value.length > 0 ? ( */}
         <>
           <div className="mb-4 flex items-center gap-4">
             {value.map((url) => (
@@ -97,7 +118,7 @@ export const ImageUploader = ({
             ))}
           </div>
         </>
-      ) : (
+      {/* ) : ( */}
         <div className="w-52 h-52 rounded-md overflow-hidden border border-dashed border-gray-200 flex items-center justify-center flex-col gap-3 object-contain bg-gray-100">
           {isLoading ? (
             <>
@@ -112,8 +133,8 @@ export const ImageUploader = ({
               <label>
                 <div className="w-full h-full flex flex-col gap-2 items-center justify-center cursor-pointer">
                   <ImagePlus className="h-4 w-4" />
-                  <p className="text-sm text-muted-foreground">
-                    upload an image
+                  <p className="text-sm text-muted-foreground flex items-center px-5">
+                    upload images
                   </p>
                 </div>
                 <input
@@ -121,12 +142,13 @@ export const ImageUploader = ({
                   onChange={onUpload}
                   accept="image/*"
                   className="w-0 h-0"
+                  multiple
                 />
               </label>
             </>
           )}
         </div>
-      )}
+      {/* )} */}
     </div>
   );
 };

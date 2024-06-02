@@ -32,6 +32,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { Checkbox } from "@/components/ui/checkbox";
+import { ImagesUpload } from "@/components/shared/images-uploader";
 
 interface ProductFormProps {
   initialData: Product;
@@ -69,7 +70,18 @@ export const ProductForm = ({
 
   const form = useForm<z.infer<typeof ProductFormSchema>>({
     resolver: zodResolver(ProductFormSchema),
-    defaultValues: initialData,
+    defaultValues: {
+      name: "",
+      price: 0,
+      qty: 0,
+      category: "",
+      size: "",
+      kitchen: "",
+      cuisine: "",
+      isFeatured: false,
+      isArchived: false,
+      images: [],
+    },
   });
 
   const params = useParams();
@@ -146,6 +158,31 @@ export const ProductForm = ({
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-full space-y-5"
         >
+          {/* Images */}
+
+          <FormField
+            control={form.control}
+            name="images"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Product Images</FormLabel>
+                <FormControl>
+                  <ImagesUpload
+                    value={field.value.map((image) => image.url)}
+                    onChange={(urls) => {
+                      field.onChange(urls.map((url) => ({ url })));
+                    }}
+                    onRemove={(url) => {
+                      field.onChange(
+                        field.value.filter((current) => current.url !== url)
+                      );
+                    }}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+
           <div className="grid grid-cols-3 gap-8">
             <FormField
               control={form.control}
