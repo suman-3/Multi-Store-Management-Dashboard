@@ -25,6 +25,13 @@ export const MainNav = ({
         pathname.includes("billboards"),
     },
     {
+      href: `/${params.storeId}/categories`,
+      label: "Categories",
+      active:
+        pathname === `/${params.storeId}/categories` ||
+        pathname.includes("categories"),
+    },
+    {
       href: `/${params.storeId}/settings`,
       label: "Settings",
       active: pathname === `/${params.storeId}/settings`,
