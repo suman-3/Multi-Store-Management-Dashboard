@@ -44,18 +44,16 @@ export const CellAction = ({ data }: CellActionProps) => {
     if (ok) {
       try {
         await deleteObject(ref(storage, data.imageUrl)).then(async () => {
-          await axios.delete(
-            `/api/${params.storeId}/billboards/${data.id}`
-          );
+          await axios.delete(`/api/${params.storeId}/billboards/${data.id}`);
         });
         toast("Billboard removed");
-        
+
         setIsLoading(false);
       } catch (error: any) {
         console.log(`Client Error in cell action page: ${error.message}`);
         toast("An error occurred,while deleting the billboard");
         setIsLoading(false);
-      }finally{
+      } finally {
         router.refresh();
       }
     }
