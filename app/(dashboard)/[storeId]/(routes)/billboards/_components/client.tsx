@@ -20,7 +20,7 @@ export const BillBoardClient = ({ data }: BillBoardClientProps) => {
     <>
       <div className="flex items-center justify-between">
         <Heading
-          title={`Billboards (0)`}
+          title={`Billboards (${data.length})`}
           description="Manage billboards for your store"
         />
         <Button

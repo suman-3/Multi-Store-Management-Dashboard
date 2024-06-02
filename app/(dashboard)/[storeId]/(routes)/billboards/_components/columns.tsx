@@ -4,6 +4,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { CellImage } from "./cell-image";
 import { ArrowUpDown, MoreHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { CellAction } from "./cell-action";
 
 export type BillBoardColumns = {
   id: string;
@@ -48,5 +49,11 @@ export const columns: ColumnDef<BillBoardColumns>[] = [
         </Button>
       );
     },
+  },
+
+  {
+    id: "actions",
+    cell: ({ row }) => <CellAction data={row.original} />,
+   
   },
 ];
