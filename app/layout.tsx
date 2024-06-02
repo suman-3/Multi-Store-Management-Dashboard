@@ -11,8 +11,11 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "Admin Dashboard",
+  title: "E-Commerce Dashboard",
   description: "Manage your store on a single page",
+  icons: {
+    icon: "/logo.svg"
+  }
 };
 
 export default function RootLayout({

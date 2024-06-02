@@ -8,6 +8,7 @@ import { redirect } from "next/navigation";
 import { collection, getDocs, query, where } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { Store } from "@/types-db";
+import Image from "next/image";
 
 const Navbar = async () => {
   const { userId } = auth();
@@ -28,6 +29,7 @@ const Navbar = async () => {
   return (
     <div className="border-b shadow-sm">
       <div className="flex h-16 items-center px-4">
+        <Image src="/logo.svg" width={40} height={40} alt="logo" className="mr-4"  />
         <StoreSwitcher items={stores} />
 
         {/* routes */}
