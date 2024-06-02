@@ -51,23 +51,22 @@ export const SettingsForm = ({ initialData }: SettingsFormProps) => {
   const router = useRouter();
 
   const onSubmit = async (data: z.infer<typeof newStoreFromSchema>) => {
-    setIsDeleting(true);
+    setIsLoading(true);
     try {
       const response = await axios.patch(`/api/stores/${params.storeId}`, data);
       const storeName = response.data.name;
-      const storeId = response.data.id;
       toast(`${storeName} updated`);
       router.refresh();
-      setIsDeleting(false);
+      setIsLoading(false);
     } catch (error: any) {
       console.log(`Client Error: ${error.message}`);
       toast("An error occurred,while updating the store");
-      setIsDeleting(false);
+      setIsLoading(false);
     }
   };
 
   const onDelete = async () => {
-    setIsLoading(true);
+    setIsDeleting(true);
     const ok = await confirm();
 
     if (ok) {
@@ -75,14 +74,14 @@ export const SettingsForm = ({ initialData }: SettingsFormProps) => {
         const response = await axios.delete(`/api/stores/${params.storeId}`);
         router.push("/");
         toast("Store removed");
-        setIsLoading(false);
+        setIsDeleting(false);
       } catch (error: any) {
         console.log(`Client Error: ${error.message}`);
         toast("An error occurred,while deleting the store");
-        setIsLoading(false);
+        setIsDeleting(false);
       }
     }
-    setIsLoading(false);
+    setIsDeleting(false);
   };
 
   return (
@@ -140,7 +139,7 @@ export const SettingsForm = ({ initialData }: SettingsFormProps) => {
           </Button>
         </form>
       </Form>
-    
+
       <Separator />
       <ApiAlert
         title="NEXT_PUBLIC_API_URL"

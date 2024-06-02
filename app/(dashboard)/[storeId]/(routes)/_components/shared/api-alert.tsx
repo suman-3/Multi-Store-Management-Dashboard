@@ -28,7 +28,7 @@ export const ApiAlert = ({
 }: ApiAlertProps) => {
   const onCopy = () => {
     navigator.clipboard.writeText(description);
-    toast("Api Endpoint Copied");
+    toast("API Endpoint Copied");
   };
 
   return (
