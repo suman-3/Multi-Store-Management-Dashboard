@@ -1,6 +1,5 @@
 "use client";
 import { useConfirm } from "@/hooks/use-confirm";
-import { CategoryFormSchema } from "@/schemas/CategoryFormSchema";
 import { Size } from "@/types-db";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useParams, useRouter } from "next/navigation";
@@ -19,13 +18,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 
 import { Input } from "@/components/ui/input";
 import axios from "axios";
