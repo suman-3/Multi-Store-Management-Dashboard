@@ -16,12 +16,20 @@ export interface Billboards {
   updatedAt: Timestamp;
 }
 
-
-export interface Category{
+export interface Category {
   id: string;
   billboardId: string;
   billboardLabel: string;
   name: string;
+  createdAt: Timestamp;
+  updatedAt: Timestamp;
+}
+
+export interface Size {
+  id: string;
+  categoryId: string;
+  name: string;
+  value: string;
   createdAt: Timestamp;
   updatedAt: Timestamp;
 }
