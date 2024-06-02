@@ -41,7 +41,15 @@ export const MainNav = ({
       href: `/${params.storeId}/kitchens`,
       label: "Kitchens",
       active:
-        pathname === `/${params.storeId}/kitchens` || pathname.includes("kitchens"),
+        pathname === `/${params.storeId}/kitchens` ||
+        pathname.includes("kitchens"),
+    },
+    {
+      href: `/${params.storeId}/cuisines`,
+      label: "Cuisines",
+      active:
+        pathname === `/${params.storeId}/cuisines` ||
+        pathname.includes("cuisines"),
     },
     {
       href: `/${params.storeId}/settings`,

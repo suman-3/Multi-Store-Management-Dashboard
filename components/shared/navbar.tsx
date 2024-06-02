@@ -46,8 +46,8 @@ const Navbar = async () => {
         <MainNav />
 
         {/* user profile */}
-        <div className="ml-auto flex items-center justify-between gap-5">
-          <GithubStarCount repoUrl={`${process.env.GIHUB_REPO_LINK}`} />
+        <div className="ml-auto flex items-center justify-between gap-2">
+          {/* <GithubStarCount repoUrl={`${process.env.GIHUB_REPO_LINK}`} /> */}
   
           <ClerkLoading>
             <Skeleton className="w-9 h-9 rounded-full bg-gray-300" />
