@@ -27,6 +27,7 @@ import { BillBoardFormSchema } from "@/schemas/BillBoardFormSchema";
 import { Heading } from "../../../_components/shared/heading";
 import { Trash } from "lucide-react";
 import { Separator } from "@/components/ui/separator";
+import { ImageUploader } from "@/components/shared/image-uploader";
 
 interface BillBoardFormProps {
   initialData: Billboards;
@@ -36,9 +37,10 @@ export const BillBoardForm = ({ initialData }: BillBoardFormProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
-
   const title = initialData ? "Edit Billboard" : "Create Billboard";
-  const description = initialData ? "Edit your billboard" : "Create a new billboard";
+  const description = initialData
+    ? "Edit your billboard"
+    : "Create a new billboard";
   const toastMessage = initialData ? "Billboard updated" : "Billboard created";
   const action = initialData ? "Update Billboard" : "Create Billboard";
 
@@ -93,30 +95,45 @@ export const BillBoardForm = ({ initialData }: BillBoardFormProps) => {
     <>
       <ConfirmDialogue />
       <div className="flex items-center justify-center">
-      <Heading
-        title={title}
-        description={description}
-      />
-      {initialData && (
-        <Button
-          onClick={onDelete}
-          size="sm"
-          variant="destructive"
-          loadingText="Deleting..."
-          isLoading={isDeleting}
-        >
-          <Trash className="h-4 w-4 mr-2" />
-          Delete
-        </Button>
-      
-      )}
+        <Heading title={title} description={description} />
+        {initialData && (
+          <Button
+            onClick={onDelete}
+            size="sm"
+            variant="destructive"
+            loadingText="Deleting..."
+            isLoading={isDeleting}
+            disabled={isDeleting}
+          >
+            <Trash className="h-4 w-4 mr-2" />
+            Delete
+          </Button>
+        )}
       </div>
-      <Separator/>
+      <Separator />
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
           className="w-full space-y-5"
         >
+          <FormField
+            control={form.control}
+            name="imageUrl"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Billboard Image</FormLabel>
+                <FormControl>
+                  <ImageUploader
+                    disabled={isLoading}
+                    value={field.value ? [field.value] : []}
+                    onChange={(url) => field.onChange(url)}
+                    onRemove={() => field.onChange("")}
+                  />
+                </FormControl>
+              </FormItem>
+            )}
+          />
+
           <div className="grid grid-cols-3 gap-8">
             <FormField
               control={form.control}
@@ -127,13 +144,10 @@ export const BillBoardForm = ({ initialData }: BillBoardFormProps) => {
                   <FormControl>
                     <Input
                       disabled={isLoading}
-                      placeholder="Daily Food"
+                      placeholder="your billboard name..."
                       {...field}
                     />
                   </FormControl>
-                  <FormDescription>
-                    Enter the label of billboard
-                  </FormDescription>
                   <FormMessage />
                 </FormItem>
               )}

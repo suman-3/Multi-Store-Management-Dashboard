@@ -20,7 +20,9 @@ export const MainNav = ({
     {
       href: `/${params.storeId}/billboards`,
       label: "Billboards",
-      active: pathname === `/${params.storeId}/billboards`,
+      active:
+        pathname === `/${params.storeId}/billboards` ||
+        pathname.includes("billboards"),
     },
     {
       href: `/${params.storeId}/settings`,
@@ -42,7 +44,7 @@ export const MainNav = ({
               : "text-muted-foreground"
           )}
         >
-            {route.label}
+          {route.label}
         </Link>
       ))}
     </nav>
