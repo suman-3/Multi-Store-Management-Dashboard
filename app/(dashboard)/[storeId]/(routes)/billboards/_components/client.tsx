@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Plus } from "lucide-react";
 import { DataTable } from "@/components/shared/data-table";
 import { BillBoardColumns, columns } from "./columns";
+import { ApiList } from "../../_components/shared/api-list";
 
 interface BillBoardClientProps {
   data: BillBoardColumns[];
@@ -33,6 +34,11 @@ export const BillBoardClient = ({ data }: BillBoardClientProps) => {
       <Separator />
 
       <DataTable columns={columns} data={data} searchKey="label" />
+
+      
+      <Heading title="API" description="API calls for billboards" />
+      <Separator />
+      <ApiList entityName="billboards" entityNameId="billboardId" />
     </>
   );
 };

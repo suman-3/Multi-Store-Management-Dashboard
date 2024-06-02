@@ -27,7 +27,7 @@ export const ApiList = ({ entityName, entityNameId }: ApiListProps) => {
       <ApiAlert
         title="GET"
         variant="public"
-        description={`${baseUrl}/${entityName}/${entityNameId}`}
+        description={`${baseUrl}/${entityName}/{${entityNameId}}`}
       />
       <ApiAlert
         title="POST"
@@ -37,12 +37,12 @@ export const ApiList = ({ entityName, entityNameId }: ApiListProps) => {
       <ApiAlert
         title="PATCH"
         variant="admin"
-        description={`${baseUrl}/${entityName}/${entityNameId}`}
+        description={`${baseUrl}/${entityName}/{${entityNameId}}`}
       />
       <ApiAlert
         title="DELETE"
         variant="admin"
-        description={`${baseUrl}/${entityName}/${entityNameId}`}
+        description={`${baseUrl}/${entityName}/{${entityNameId}}`}
       />
     </>
   );
