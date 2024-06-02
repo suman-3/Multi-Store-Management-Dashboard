@@ -78,10 +78,11 @@ export const BillBoardForm = ({ initialData }: BillBoardFormProps) => {
 
       router.push(`/${params.storeId}/billboards`);
       router.refresh();
-      setIsLoading(false);
     } catch (error: any) {
       console.log(`Client Error: ${error.message}`);
       toast(toastErrorMessage);
+    } finally {
+      router.refresh();
       setIsLoading(false);
     }
   };
@@ -100,7 +101,7 @@ export const BillBoardForm = ({ initialData }: BillBoardFormProps) => {
         });
 
         router.push(`/${params.storeId}/billboards`);
-        router.refresh()
+        router.refresh();
         toast("Billboard removed");
         setIsDeleting(false);
       } catch (error: any) {

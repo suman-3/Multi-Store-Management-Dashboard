@@ -14,6 +14,9 @@ import { useConfirm } from "@/hooks/use-confirm";
 import { Button } from "@/components/ui/button";
 import { Copy, MoreVertical, PencilLine, Trash2 } from "lucide-react";
 import { toast } from "sonner";
+import { deleteObject, ref } from "firebase/storage";
+import { storage } from "@/lib/firebase";
+import axios from "axios";
 
 interface CellActionProps {
   data: BillBoardColumns;
@@ -32,6 +35,31 @@ export const CellAction = ({ data }: CellActionProps) => {
   const onCopy = (id: string) => {
     navigator.clipboard.writeText(id);
     toast("Billboard ID Copied");
+  };
+
+  const onDelete = async () => {
+    setIsLoading(true);
+    const ok = await confirm();
+
+    if (ok) {
+      try {
+        await deleteObject(ref(storage, data.imageUrl)).then(async () => {
+          await axios.delete(
+            `/api/${params.storeId}/billboards/${data.id}`
+          );
+        });
+        toast("Billboard removed");
+        
+        setIsLoading(false);
+      } catch (error: any) {
+        console.log(`Client Error in cell action page: ${error.message}`);
+        toast("An error occurred,while deleting the billboard");
+        setIsLoading(false);
+      }finally{
+        router.refresh();
+      }
+    }
+    setIsLoading(false);
   };
 
   return (
@@ -62,7 +90,7 @@ export const CellAction = ({ data }: CellActionProps) => {
             <PencilLine className="w-4 h-4 mr-2" />
             Update
           </DropdownMenuItem>
-          <DropdownMenuItem className="cursor-pointer" onClick={() => {}}>
+          <DropdownMenuItem className="cursor-pointer" onClick={onDelete}>
             <Trash2 className="w-4 h-4 mr-2" />
             Delete
           </DropdownMenuItem>

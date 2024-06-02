@@ -11,7 +11,7 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
-  title: "E-Commerce Dashboard",
+  title: "Multi Store Dashboard",
   description: "Manage your store on a single page",
   icons: {
     icon: "/logo.svg"
