@@ -60,9 +60,9 @@ export interface Product {
   isFeatured: boolean;
   isArchived: boolean;
   category: string;
-  size: string;
-  kitchen: string;
-  cuisine: string;
+  size?: string;
+  kitchen?: string;
+  cuisine?: string;
   createdAt: Timestamp;
   updatedAt: Timestamp;
 }

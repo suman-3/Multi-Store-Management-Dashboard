@@ -34,7 +34,6 @@ import {
 import { Checkbox } from "@/components/ui/checkbox";
 import { ImagesUpload } from "@/components/shared/images-uploader";
 
-
 interface ProductFormProps {
   initialData: Product;
   categories: Category[];
@@ -50,9 +49,6 @@ export const ProductForm = ({
   kitchens,
   cuisines,
 }: ProductFormProps) => {
-
-  
-
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isDeleting, setIsDeleting] = useState<boolean>(false);
 
@@ -74,7 +70,7 @@ export const ProductForm = ({
 
   const form = useForm<z.infer<typeof ProductFormSchema>>({
     resolver: zodResolver(ProductFormSchema),
-    defaultValues: initialData ||{
+    defaultValues: initialData || {
       name: "",
       price: 0,
       qty: 0,
@@ -91,27 +87,34 @@ export const ProductForm = ({
   const params = useParams();
   const router = useRouter();
 
+  const ifNotProductImage = form.getValues("images").length === 0;
+
   const onSubmit = async (data: z.infer<typeof ProductFormSchema>) => {
     setIsLoading(true);
-    try {
-      if (initialData) {
-        await axios.patch(
-          `/api/${params.storeId}/products/${params.productId}`,
-          data
-        );
-      } else {
-        await axios.post(`/api/${params.storeId}/products`, data);
-      }
-      toast(toastMessage);
-
-      router.push(`/${params.storeId}/products`);
-      router.refresh();
-    } catch (error: any) {
-      console.log(`Client Error: ${error.message}`);
-      toast(toastErrorMessage);
-    } finally {
-      router.refresh();
+    if (ifNotProductImage) {
+      toast("Product Image is required");
       setIsLoading(false);
+    } else {
+      try {
+        if (initialData) {
+          await axios.patch(
+            `/api/${params.storeId}/products/${params.productId}`,
+            data
+          );
+        } else {
+          await axios.post(`/api/${params.storeId}/products`, data);
+        }
+        toast(toastMessage);
+
+        router.push(`/${params.storeId}/products`);
+        router.refresh();
+      } catch (error: any) {
+        console.log(`Client Error: ${error.message}`);
+        toast(toastErrorMessage);
+      } finally {
+        router.refresh();
+        setIsLoading(false);
+      }
     }
   };
 

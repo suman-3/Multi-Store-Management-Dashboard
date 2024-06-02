@@ -61,23 +61,6 @@ export const POST = async (
       });
     }
 
-    if (!kitchen) {
-      return new NextResponse("Product Kitchen is required/missing", {
-        status: 400,
-      });
-    }
-
-    if (!cuisine) {
-      return new NextResponse("Product Cuisine is required/missing", {
-        status: 400,
-      });
-    }
-
-    if (!size) {
-      return new NextResponse("Product Size is required/missing", {
-        status: 400,
-      });
-    }
 
     if (!params.storeId) {
       return new NextResponse("Store ID is required/missing", { status: 400 });

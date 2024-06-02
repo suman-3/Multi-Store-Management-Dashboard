@@ -1,7 +1,7 @@
 import { collection, doc, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { format } from "date-fns";
-import { Product} from "@/types-db";
+import { Product } from "@/types-db";
 import { ProductsColumns } from "./_components/column";
 import { priceFormatter } from "@/lib/utils";
 import { ProductClient } from "./_components/product-client";
@@ -20,9 +20,10 @@ const ProductsPage = async ({ params }: { params: { storeId: string } }) => {
     isFeatured: item.isFeatured,
     isArchived: item.isArchived,
     category: item.category,
-    size: item.size,
-    kitchen: item.kitchen,
-    cuisine: item.cuisine,
+    size: item.size || "",
+    kitchen: item.kitchen || "",
+    cuisine: item.cuisine || "",
+    qty: item.qty ? item.qty.toString() : "",
     createdAt:
       item.createdAt && format(item.createdAt.toDate(), "MMMM do, yyyy"),
   }));

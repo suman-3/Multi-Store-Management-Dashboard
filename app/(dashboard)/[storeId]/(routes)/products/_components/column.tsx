@@ -18,6 +18,7 @@ export type ProductsColumns = {
   kitchen: string;
   cuisine: string;
   createdAt: string;
+  qty: string;
 };
 
 export const columns: ColumnDef<ProductsColumns>[] = [
@@ -62,6 +63,10 @@ export const columns: ColumnDef<ProductsColumns>[] = [
   {
     accessorKey: "cuisine",
     header: "Cuisine",
+  },
+  {
+    accessorKey: "qty",
+    header: "Quantitye",
   },
 
   {
