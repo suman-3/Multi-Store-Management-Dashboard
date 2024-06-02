@@ -1,5 +1,5 @@
 import { db } from "@/lib/firebase";
-import { Kitchen} from "@/types-db";
+import { Cuisines} from "@/types-db";
 import { auth } from "@clerk/nextjs/server";
 import {
   deleteDoc,
@@ -12,7 +12,7 @@ import { NextResponse } from "next/server";
 
 export const PATCH = async (
   req: Request,
-  { params }: { params: { storeId: string; kitchenId: string } }
+  { params }: { params: { storeId: string; cuisineId: string } }
 ) => {
   try {
     const { userId } = auth();
@@ -25,13 +25,13 @@ export const PATCH = async (
     const { name, value } = body;
 
     if (!name) {
-      return new NextResponse("Kitchen name is required/missing", {
+      return new NextResponse("Cuisine name is required/missing", {
         status: 400,
       });
     }
 
     if (!value) {
-      return new NextResponse("kitchen value is required/missing", {
+      return new NextResponse("Cuisine value is required/missing", {
         status: 400,
       });
     }
@@ -39,8 +39,8 @@ export const PATCH = async (
     if (!params.storeId) {
       return new NextResponse("Store ID is required/missing", { status: 400 });
     }
-    if (!params.kitchenId) {
-      return new NextResponse("Kitchen ID is required/missing", {
+    if (!params.cuisineId) {
+      return new NextResponse("Cuisine ID is required/missing", {
         status: 400,
       });
     }
@@ -54,40 +54,40 @@ export const PATCH = async (
       }
     }
 
-    const kitchenRef = await getDoc(
-      doc(db, "stores", params.storeId, "kitchens", params.kitchenId)
+    const cuisineRef = await getDoc(
+      doc(db, "stores", params.storeId, "cuisines", params.cuisineId)
     );
 
-    if (kitchenRef.exists()) {
+    if (cuisineRef.exists()) {
       await updateDoc(
-        doc(db, "stores", params.storeId, "kitchens", params.kitchenId),
+        doc(db, "stores", params.storeId, "cuisines", params.cuisineId),
         {
-          ...kitchenRef.data(),
+          ...cuisineRef.data(),
           name,
           value,
           updatedAt: serverTimestamp(),
         }
       );
     } else {
-      return new NextResponse("Kitchen not found", { status: 404 });
+      return new NextResponse("Cuisine not found", { status: 404 });
     }
 
-    const kitchen = (
+    const cuisine = (
       await getDoc(
-        doc(db, "stores", params.storeId, "kitchens", params.kitchenId)
+        doc(db, "stores", params.storeId, "cuisines", params.cuisineId)
       )
-    ).data() as Kitchen;
+    ).data() as Cuisines;
 
-    return NextResponse.json(kitchen);
+    return NextResponse.json(cuisine);
   } catch (error: any) {
-    console.log(`KITCHENS_PATCH Error: ${error.message}`);
+    console.log(`CUISINE_PATCH Error: ${error.message}`);
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 };
 
 export const DELETE = async (
   req: Request,
-  { params }: { params: { storeId: string; kitchenId: string } }
+  { params }: { params: { storeId: string; cuisineId: string } }
 ) => {
   try {
     const { userId } = auth();
@@ -99,8 +99,8 @@ export const DELETE = async (
     if (!params.storeId) {
       return new NextResponse("Store ID is required/missing", { status: 400 });
     }
-    if (!params.kitchenId) {
-      return new NextResponse("Kitchen ID is required/missing", {
+    if (!params.cuisineId) {
+      return new NextResponse("Cuisine ID is required/missing", {
         status: 400,
       });
     }
@@ -114,20 +114,20 @@ export const DELETE = async (
       }
     }
 
-    const kitchenRef = doc(
+    const cuisineRef = doc(
       db,
       "stores",
       params.storeId,
-      "kitchens",
-      params.kitchenId
+      "cuisines",
+      params.cuisineId
     );
 
-    await deleteDoc(kitchenRef);
+    await deleteDoc(cuisineRef);
     return NextResponse.json({
-      msg: "Kitchens deleted",
+      msg: "Cuisine deleted",
     });
   } catch (error: any) {
-    console.log(`KITCHEN_DELETE Error: ${error.message}`);
+    console.log(`CUISINE_DELETE Error: ${error.message}`);
     return new NextResponse("Internal Server Error", { status: 500 });
   }
 };
