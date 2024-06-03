@@ -59,6 +59,13 @@ export const MainNav = ({
         pathname.includes("products"),
     },
     {
+      href: `/${params.storeId}/orders`,
+      label: "Orders",
+      active:
+        pathname === `/${params.storeId}/orders` ||
+        pathname.includes("orders"),
+    },
+    {
       href: `/${params.storeId}/settings`,
       label: "Settings",
       active: pathname === `/${params.storeId}/settings`,

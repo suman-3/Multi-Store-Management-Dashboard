@@ -69,7 +69,7 @@ export interface Product {
 
 export interface Order {
   id: string;
-  isPaid: string;
+  isPaid: boolean;
   phone: string;
   orderItems: Product[];
   address: string;

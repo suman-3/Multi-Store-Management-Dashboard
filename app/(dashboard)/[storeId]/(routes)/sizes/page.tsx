@@ -2,7 +2,7 @@ import { collection, doc, getDocs } from "firebase/firestore";
 import { db } from "@/lib/firebase";
 import { format } from "date-fns";
 import {  Size } from "@/types-db";
-import { SizesClient } from "./_components/category-client";
+import { SizesClient } from "./_components/sizes-client";
 import { SizesColumns } from "./_components/column";
 
 
