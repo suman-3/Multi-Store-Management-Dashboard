@@ -163,6 +163,8 @@ export const DELETE = async (
       }
     });
 
+    // finally deleting the store
+
     await deleteDoc(docRef);
 
     return NextResponse.json({
