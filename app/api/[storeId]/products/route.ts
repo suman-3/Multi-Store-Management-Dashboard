@@ -3,12 +3,15 @@ import { Product } from "@/types-db";
 import { auth } from "@clerk/nextjs/server";
 import {
   addDoc,
+  and,
   collection,
   doc,
   getDoc,
   getDocs,
+  query,
   serverTimestamp,
   updateDoc,
+  where,
 } from "firebase/firestore";
 import { NextResponse } from "next/server";
 
@@ -60,7 +63,6 @@ export const POST = async (
         status: 400,
       });
     }
-
 
     if (!params.storeId) {
       return new NextResponse("Store ID is required/missing", { status: 400 });
@@ -119,12 +121,76 @@ export const GET = async (
     if (!params.storeId) {
       return new NextResponse("Store ID is required/missing", { status: 400 });
     }
+    // get the search params from the req.url
+    const { searchParams } = new URL(req.url);
 
-    const prouctsData = (
-      await getDocs(collection(doc(db, "stores", params.storeId), "products"))
-    ).docs.map((doc) => doc.data()) as Product[];
+    const productRef = collection(
+      doc(db, "stores", params.storeId),
+      "products"
+    );
 
-    return NextResponse.json(prouctsData);
+    let productsQuery;
+
+    let queryConstraints = [];
+
+    // Construct the query based on search parameters
+    if (searchParams.has("size")) {
+      queryConstraints.push(where("size", "==", searchParams.get("size")));
+    }
+
+    if (searchParams.has("category")) {
+      queryConstraints.push(
+        where("category", "==", searchParams.get("category"))
+      );
+    }
+
+    if (searchParams.has("kitchen")) {
+      queryConstraints.push(
+        where("kitchen", "==", searchParams.get("kitchen"))
+      );
+    }
+
+    if (searchParams.has("cuisine")) {
+      queryConstraints.push(
+        where("cuisine", "==", searchParams.get("cuisine"))
+      );
+    }
+
+    if (searchParams.has("isFeatured")) {
+      queryConstraints.push(
+        where(
+          "isFeatured",
+          "==",
+          searchParams.get("isFeatured") === "true" ? true : false
+        )
+      );
+    }
+
+    if (searchParams.has("isArchived")) {
+      queryConstraints.push(
+        where(
+          "isArchived",
+          "==",
+          searchParams.get("isArchived") === "true" ? true : false
+        )
+      );
+    }
+
+    if (queryConstraints.length > 0) {
+      productsQuery = query(productRef, and(...queryConstraints));
+    } else {
+      productsQuery = query(productRef);
+    }
+
+    // execute the query
+
+    const querySnapshot = await getDocs(productsQuery);
+
+    const productData: Product[] = querySnapshot.docs.map(
+      (doc) => doc.data() as Product
+    );
+
+    return NextResponse.json(productData);
   } catch (error: any) {
     console.log(`PRODUCTS_GET Error: ${error.message}`);
     return new NextResponse("Internal Server Error", { status: 500 });
